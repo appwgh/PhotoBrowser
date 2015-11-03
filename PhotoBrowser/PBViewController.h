@@ -34,8 +34,7 @@
 @property (nonatomic, weak) id<PBViewControllerDataSource> pb_dataSource;
 @property (nonatomic, weak) id<PBViewControllerDelegate> pb_delegate;
 
-@property(nonatomic,strong)UIImageView *backgroundView;
-@property(nonatomic,strong)UIButton *saveButton;
+@property(nonatomic,strong)UIImage *saveImage;
 
 - (void)setInitializePageIndex:(NSInteger)pageIndex;
 

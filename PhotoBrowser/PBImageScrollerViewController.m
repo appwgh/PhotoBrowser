@@ -246,7 +246,7 @@ static NSString * const PBObservedKeyPath = @"imageView.image";
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _scrollView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        _scrollView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.9];
         _scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         _scrollView.delegate = self;
     }

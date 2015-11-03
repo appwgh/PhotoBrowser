@@ -38,6 +38,7 @@
 @property (nonatomic, assign) NSInteger numberOfPages;
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) UILabel *indicatorLabel;
+@property (nonatomic, strong) UIButton *saveButton;
 @end
 
 @implementation PBViewController
@@ -61,10 +62,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blackColor];
-    
-    self.backgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:self.backgroundView];
+    self.view.backgroundColor = [UIColor clearColor];
 
     // Set numberOfPages
     if ([self.pb_dataSource conformsToProtocol:@protocol(PBViewControllerDataSource)] &&
@@ -75,12 +73,11 @@
     // Set indicatorLabel
     [self.view addSubview:self.indicatorLabel];
     
-    
     self.saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.saveButton.frame = CGRectMake(0, 0, 25, 25);
+    [self.saveButton setImage:self.saveImage forState:UIControlStateNormal];
     [self.saveButton addTarget:self action:@selector(saveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.saveButton];
-
 
     // Set visible view controllers
     self.currentPage = 0 < self.currentPage && self.currentPage < self.numberOfPages ? self.currentPage : 0;
