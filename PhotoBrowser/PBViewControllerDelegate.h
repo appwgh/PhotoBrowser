@@ -36,5 +36,6 @@
 /// Action call back for long press, presentedImage will be nil untill loaded image
 - (void)viewController:(PBViewController *)viewController didLongPressedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage;
 
+- (void)viewController:(PBViewController *)viewController didSaveTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage;
 
 @end

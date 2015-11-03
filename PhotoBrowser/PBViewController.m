@@ -59,8 +59,13 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor blackColor];
     
+    self.backgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.backgroundView];
+
     // Set numberOfPages
     if ([self.pb_dataSource conformsToProtocol:@protocol(PBViewControllerDataSource)] &&
         [self.pb_dataSource respondsToSelector:@selector(numberOfPagesInViewController:)]) {
@@ -69,6 +74,13 @@
     
     // Set indicatorLabel
     [self.view addSubview:self.indicatorLabel];
+    
+    
+    self.saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.saveButton.frame = CGRectMake(0, 0, 25, 25);
+    [self.saveButton addTarget:self action:@selector(saveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.saveButton];
+
 
     // Set visible view controllers
     self.currentPage = 0 < self.currentPage && self.currentPage < self.numberOfPages ? self.currentPage : 0;
@@ -95,6 +107,14 @@
     [super viewWillDisappear:animated];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+}
+
+- (void)saveButtonPressed:(id)sender {
+    UIImage *image = [self.pb_dataSource viewController:self imageForPageAtIndex:self.currentPage];
+    
+    if ([self.pb_delegate respondsToSelector:@selector(viewController:didSaveTapedPageAtIndex:presentedImage:)]) {
+        [self.pb_delegate viewController:self didSaveTapedPageAtIndex:self.currentPage presentedImage:image];
+    }
 }
 
 #pragma mark - Inner methods
@@ -152,11 +172,13 @@
 }
 
 - (void)_updateIndicator {
-    NSString *indicator = [NSString stringWithFormat:@"%@/%@", @(self.currentPage+1), @(self.numberOfPages)];
+    NSString *indicator = [NSString stringWithFormat:@"%@ / %@", @(self.currentPage+1), @(self.numberOfPages)];
     self.indicatorLabel.text = indicator;
     [self.indicatorLabel sizeToFit];
-    self.indicatorLabel.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2.0,
-                                             CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.indicatorLabel.bounds)/2);
+    self.indicatorLabel.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2.0, 20.0 + CGRectGetHeight(self.indicatorLabel.bounds)/2);
+
+    self.saveButton.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2.0,
+                                             CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.saveButton.bounds)/2 - 20.0);
 }
 
 #pragma mark - Public method
@@ -189,7 +211,7 @@
     if (!_reusableImageScrollerViewControllers) {
         NSMutableArray *controllers = [NSMutableArray new];
         for (NSInteger index = 0; index < 3; index++) {
-            PBImageScrollerViewController *imageScrollerViewController = [PBImageScrollerViewController new];
+            PBImageScrollerViewController *imageScrollerViewController = [[PBImageScrollerViewController alloc] init];
             imageScrollerViewController.page = index;
             [controllers addObject:imageScrollerViewController];
         }
@@ -202,6 +224,7 @@
     if (!_indicatorLabel) {
         _indicatorLabel = [UILabel new];
         _indicatorLabel.textColor = [UIColor whiteColor];
+        _indicatorLabel.font = [UIFont systemFontOfSize:15.0];
     }
     return _indicatorLabel;
 }

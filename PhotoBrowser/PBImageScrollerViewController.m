@@ -46,7 +46,7 @@ static NSString * const PBObservedKeyPath = @"imageView.image";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor clearColor];
     
     [self.scrollView addSubview:self.imageView];
     [self.view addSubview:self.scrollView];
@@ -98,6 +98,7 @@ static NSString * const PBObservedKeyPath = @"imageView.image";
     [self _recenterImage];
     
     self.indicatorView.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2.0, CGRectGetHeight(self.view.bounds)/2.0);
+    
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -237,7 +238,6 @@ static NSString * const PBObservedKeyPath = @"imageView.image";
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-        _imageView.backgroundColor = [UIColor blackColor];
     }
     return _imageView;
 }
@@ -246,7 +246,7 @@ static NSString * const PBObservedKeyPath = @"imageView.image";
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _scrollView.backgroundColor = [UIColor blackColor];
+        _scrollView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         _scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         _scrollView.delegate = self;
     }
