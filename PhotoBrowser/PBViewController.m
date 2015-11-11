@@ -107,8 +107,10 @@
 }
 
 - (void)saveButtonPressed:(id)sender {
-    UIImage *image = [self.pb_dataSource viewController:self imageForPageAtIndex:self.currentPage];
-    
+    UIImage *image = nil;
+    if ([self.pb_dataSource respondsToSelector:@selector(viewController:imageForPageAtIndex:)]) {
+        image = [self.pb_dataSource viewController:self imageForPageAtIndex:self.currentPage];
+    }
     if ([self.pb_delegate respondsToSelector:@selector(viewController:didSaveTapedPageAtIndex:presentedImage:)]) {
         [self.pb_delegate viewController:self didSaveTapedPageAtIndex:self.currentPage presentedImage:image];
     }
